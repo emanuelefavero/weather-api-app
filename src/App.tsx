@@ -175,7 +175,7 @@ function App() {
             </section>
           </>
         ) : (
-          <p>Enter a city/town</p>
+          <p className='no-result'>Enter a city...</p>
         )}
       </main>
     </div>
