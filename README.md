@@ -6,6 +6,10 @@ This is a simple React app that uses the [OpenWeatherMap](https://openweathermap
 
 [https://weather-api-app-mu.vercel.app/](https://weather-api-app-mu.vercel.app/)
 
+#### Screenshot
+
+![Screenshot](./Screenshot.png 'Screenshot')
+
 > Note: This app uses vite, react, typescript, and sass
 >
 > Note: This app also uses [OpenCage](https://opencagedata.com/api) geocoding API to get the country for the city
