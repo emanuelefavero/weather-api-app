@@ -2,6 +2,10 @@
 
 This is a simple React app that uses the [OpenWeatherMap](https://openweathermap.org/api) API to display the current weather in a city.
 
+## Live Demo
+
+[https://weather-api-app-mu.vercel.app/](https://weather-api-app-mu.vercel.app/)
+
 > Note: This app uses vite, react, typescript, and sass
 >
 > Note: This app also uses [OpenCage](https://opencagedata.com/api) geocoding API to get the country for the city
