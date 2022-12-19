@@ -93,8 +93,8 @@ function App() {
 
   return (
     <div className='App' style={style}>
+      {/* HEADER */}
       <header>
-        {/* HEADER */}
         {/* Search Box */}
         <section className='search'>
           {/* Select Units */}
@@ -117,6 +117,7 @@ function App() {
         </section>
       </header>
 
+      {/* MAIN */}
       <main>
         {loading ? (
           <p>Loading...</p>
@@ -125,7 +126,7 @@ function App() {
             {/* Condition */}
             <section className='condition-and-location'>
               <div className='condition'>
-                <h4>{weather?.weather[0]?.description}</h4>
+                <p>{weather?.weather[0]?.description}</p>
                 {/* Condition Icon */}
                 {/* <p>{weather?.weather[0]?.main}</p> */}
                 <img
@@ -141,32 +142,37 @@ function App() {
             </section>
 
             {/* Temperature F/C */}
-            <section className='temperature-and-stats'></section>
-            <h1 className='temperature'>
-              {/* If units is imperial, convert values to Fahrenheit */}
-              {units === 'metric'
-                ? `${Math.round(Number(weather?.main?.temp))} °C`
-                : `${Math.round(Number(weather?.main?.temp) * 1.8 + 32)} °F`}
-            </h1>
-            <div className='vertical-divider'></div>
-            <div className='stats'>
-              <p className='feels-like'>
-                FEELS LIKE:{' '}
+            <section className='temperature-and-stats'>
+              <h1 className='temperature'>
                 {/* If units is imperial, convert values to Fahrenheit */}
                 {units === 'metric'
-                  ? `${Math.round(Number(weather?.main?.feels_like))} °C`
-                  : `${Math.round(
-                      Number(weather?.main?.feels_like) * 1.8 + 32
-                    )} °F`}
-              </p>
-              <p className='wind'>
-                WIND:{' '}
-                {units === 'metric'
-                  ? `${Math.round(Number(weather?.wind?.speed))} m/s`
-                  : `${Math.round(Number(weather?.wind?.speed) / 0.44704)} MPH`}
-              </p>
-              <p className='humidity'>HUMIDITY: {weather?.main?.humidity}%</p>
-            </div>
+                  ? `${Math.round(Number(weather?.main?.temp))}`
+                  : `${Math.round(Number(weather?.main?.temp) * 1.8 + 32)}`}
+                <sup>{units === 'metric' ? '°C' : '°F'}</sup>
+              </h1>
+              <div className='vertical-divider'></div>
+              <div className='stats'>
+                <p className='feels-like'>
+                  FEELS LIKE:{' '}
+                  {/* If units is imperial, convert values to Fahrenheit */}
+                  {units === 'metric'
+                    ? `${Math.round(Number(weather?.main?.feels_like))}`
+                    : `${Math.round(
+                        Number(weather?.main?.feels_like) * 1.8 + 32
+                      )}`}
+                  <sup>{units === 'metric' ? '°C' : '°F'}</sup>
+                </p>
+                <p className='wind'>
+                  WIND:{' '}
+                  {units === 'metric'
+                    ? `${Math.round(Number(weather?.wind?.speed))} m/s`
+                    : `${Math.round(
+                        Number(weather?.wind?.speed) / 0.44704
+                      )} MPH`}
+                </p>
+                <p className='humidity'>HUMIDITY: {weather?.main?.humidity}%</p>
+              </div>
+            </section>
           </>
         ) : (
           <p>Enter a city/town</p>

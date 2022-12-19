@@ -1,4 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@800&display=swap');
+
 .App {
+  color: rgb(233, 233, 233);
   header {
     width: 100%;
     display: flex;
@@ -17,7 +20,7 @@
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 999px;
         backdrop-filter: blur(8px);
-        cursor: pointer;
+        cursor: text;
         margin-right: 1rem;
         margin-bottom: 0.5rem;
         outline: none;
@@ -37,7 +40,7 @@
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 999px;
         backdrop-filter: blur(8px);
-        cursor: pointer;
+        // cursor: pointer;
         margin-right: 1rem;
         outline: none;
 
@@ -65,6 +68,99 @@
         &:hover {
           background-color: rgba(253, 40, 122, 1);
           box-shadow: 0 0 12px 1px rgba(253, 40, 122, 1);
+        }
+      }
+    }
+  }
+
+  main {
+    user-select: none;
+    padding-top: 12rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    padding-bottom: 3rem;
+
+    .condition {
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 1.4rem;
+      font-weight: 400;
+      display: flex;
+      align-items: flex-end;
+      margin-right: 1rem;
+      padding: 0;
+
+      img {
+        width: 3rem;
+        opacity: 0.75;
+      }
+    }
+
+    .location {
+      text-transform: uppercase;
+      font-size: 2.5rem;
+      font-weight: 600;
+      line-height: 1.05;
+    }
+
+    .temperature-and-stats {
+      padding-top: 1.25rem;
+      display: flex;
+      align-items: center;
+
+      .temperature {
+        font-family: 'Nunito', sans-serif;
+        font-size: 9rem;
+        font-weight: 800;
+        line-height: 1.05;
+        letter-spacing: -5px;
+        margin-right: 1rem;
+        display: flex;
+
+        sup {
+          position: relative;
+          top: 0.5rem;
+          right: 0.5rem;
+          letter-spacing: normal;
+          font-size: 1.6rem;
+          font-weight: 700;
+        }
+      }
+
+      .vertical-divider {
+        width: 2px;
+        height: 85px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.5);
+        margin-right: 2.1rem;
+      }
+
+      .stats {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        // height: 85px;
+
+        .stat {
+          display: flex;
+          align-items: center;
+
+          .stat-name {
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-right: 1rem;
+          }
+
+          .stat-value {
+            font-size: 1.4rem;
+            font-weight: 600;
+          }
+        }
+
+        p {
+          color: rgba(255, 255, 255, 0.75);
+          font-weight: 600;
+          margin-bottom: 0.875rem;
         }
       }
     }
