@@ -16,9 +16,27 @@ function App() {
   const [loading, setLoading] = useState(false)
   const [search, setSearch] = useState('')
   const [units, setUnits] = useState('metric')
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [weather, setWeather] = useState<any>({})
   const [country, setCountry] = useState('')
+
+  interface IWeather {
+    main: {
+      temp: number
+      feels_like: number
+      humidity: number
+    }
+    weather: {
+      description: string
+      icon: string
+    }[]
+
+    wind: {
+      speed: number
+    }
+
+    name: string
+  }
+  // Record<string, never> means an empty object
+  const [weather, setWeather] = useState<IWeather | Record<string, never>>({})
 
   const getWeather = () => {
     setLoading(true)
@@ -30,7 +48,9 @@ function App() {
       .then((res) => res.json())
       .then((result) => {
         setWeather(result)
-        console.log(result)
+
+        // NOTE: LOG Weather object (good for testing weather interface)
+        // console.log(result)
 
         // Get country
         fetch(
