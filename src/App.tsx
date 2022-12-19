@@ -25,7 +25,7 @@ function App() {
 
     // Get weather
     fetch(
-      `${weatherAPI.base}weather?q=${search}&units=${units}&APPID=${weatherAPI.key}`
+      `${weatherAPI.base}weather?q=${search}&units=metric&APPID=${weatherAPI.key}`
     )
       .then((res) => res.json())
       .then((result) => {
@@ -55,7 +55,7 @@ function App() {
 
         // Get weather
         fetch(
-          `${weatherAPI.base}weather?lat=${latitude}&lon=${longitude}&units=${units}&APPID=${weatherAPI.key}`
+          `${weatherAPI.base}weather?lat=${latitude}&lon=${longitude}&units=metric&APPID=${weatherAPI.key}`
         )
           .then((res) => res.json())
           .then((result) => {
@@ -96,7 +96,7 @@ function App() {
       <header>
         {/* HEADER */}
         {/* Search Box */}
-        <div>
+        <section className='search'>
           {/* Select Units */}
           <select
             defaultValue='metric'
@@ -114,7 +114,7 @@ function App() {
           />
 
           <button onClick={getWeather}>Search</button>
-        </div>
+        </section>
       </header>
 
       <main>
@@ -143,17 +143,27 @@ function App() {
             {/* Temperature F/C */}
             <section className='temperature-and-stats'></section>
             <h1 className='temperature'>
-              {weather?.main?.temp} &#176;{units === 'metric' ? 'C' : 'F'}
+              {/* If units is imperial, convert values to Fahrenheit */}
+              {units === 'metric'
+                ? `${Math.round(Number(weather?.main?.temp))} °C`
+                : `${Math.round(Number(weather?.main?.temp) * 1.8 + 32)} °F`}
             </h1>
             <div className='vertical-divider'></div>
             <div className='stats'>
               <p className='feels-like'>
-                FEELS LIKE: {Math.floor(Number(weather?.main?.feels_like))}{' '}
-                <span>&#176;{units === 'metric' ? 'C' : 'F'}</span>
+                FEELS LIKE:{' '}
+                {/* If units is imperial, convert values to Fahrenheit */}
+                {units === 'metric'
+                  ? `${Math.round(Number(weather?.main?.feels_like))} °C`
+                  : `${Math.round(
+                      Number(weather?.main?.feels_like) * 1.8 + 32
+                    )} °F`}
               </p>
               <p className='wind'>
-                WIND: {Math.round(Number(weather?.wind?.speed))}{' '}
-                {units === 'metric' ? 'm/s' : 'MPH'}
+                WIND:{' '}
+                {units === 'metric'
+                  ? `${Math.round(Number(weather?.wind?.speed))} m/s`
+                  : `${Math.round(Number(weather?.wind?.speed) / 0.44704)} MPH`}
               </p>
               <p className='humidity'>HUMIDITY: {weather?.main?.humidity}%</p>
             </div>
