@@ -1,9 +1,15 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.scss'
+import backgroundImage from './images/night.jpg'
 
-const api = {
-  key: import.meta.env.VITE_API_KEY,
+const weatherAPI = {
+  key: import.meta.env.VITE_OPEN_WEATHER_API_KEY,
   base: 'https://api.openweathermap.org/data/2.5/',
+}
+
+const countryAPI = {
+  key: import.meta.env.VITE_OPEN_CAGE_API_KEY,
+  base: `https://api.opencagedata.com/geocode/v1/`,
 }
 
 function App() {
@@ -12,25 +18,83 @@ function App() {
   const [units, setUnits] = useState('metric')
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [weather, setWeather] = useState<any>({})
+  const [country, setCountry] = useState('')
 
-  const searchPressed = () => {
+  const getWeather = () => {
     setLoading(true)
-    fetch(`${api.base}weather?q=${search}&units=${units}&APPID=${api.key}`)
+
+    // Get weather
+    fetch(
+      `${weatherAPI.base}weather?q=${search}&units=${units}&APPID=${weatherAPI.key}`
+    )
       .then((res) => res.json())
       .then((result) => {
-        setLoading(false)
         setWeather(result)
-        setSearch('')
         console.log(result)
+
+        // Get country
+        fetch(
+          `${countryAPI.base}json?q=${result?.name}&key=${countryAPI.key}&language=en&pretty=1`
+        )
+          .then((res) => res.json())
+          .then((result) => {
+            setCountry(result?.results[0]?.components?.country)
+            setLoading(false)
+            setSearch('')
+          })
       })
   }
 
-  return (
-    <div className='App'>
-      <header className='App-header'>
-        {/* HEADER */}
-        <h1>Weather App</h1>
+  // get weather on page load from user's location
+  const getWeatherFromLocation = () => {
+    if (navigator.geolocation) {
+      setLoading(true)
+      // Get user location
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords
 
+        // Get weather
+        fetch(
+          `${weatherAPI.base}weather?lat=${latitude}&lon=${longitude}&units=${units}&APPID=${weatherAPI.key}`
+        )
+          .then((res) => res.json())
+          .then((result) => {
+            setWeather(result)
+
+            // Get country
+            fetch(
+              `${countryAPI.base}json?q=${result?.name}&key=${countryAPI.key}&language=en&pretty=1`
+            )
+              .then((res) => res.json())
+              .then((result) => {
+                setCountry(result?.results[0]?.components?.country)
+                setLoading(false)
+              })
+          })
+      })
+    }
+
+    setLoading(false)
+  }
+
+  useEffect(() => {
+    getWeatherFromLocation()
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const style = {
+    width: '100%',
+    height: '100vh',
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+  }
+
+  return (
+    <div className='App' style={style}>
+      <header>
+        {/* HEADER */}
         {/* Search Box */}
         <div>
           {/* Select Units */}
@@ -44,12 +108,12 @@ function App() {
 
           <input
             type='text'
-            placeholder='Enter city/town...'
+            placeholder='Search city...'
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
 
-          <button onClick={searchPressed}>Search</button>
+          <button onClick={getWeather}>Search</button>
         </div>
       </header>
 
@@ -58,17 +122,41 @@ function App() {
           <p>Loading...</p>
         ) : typeof weather.main != 'undefined' ? (
           <>
-            {/* Location */}
-            <p>{weather?.name}</p>
+            {/* Condition */}
+            <section className='condition-and-location'>
+              <div className='condition'>
+                <h4>{weather?.weather[0]?.description}</h4>
+                {/* Condition Icon */}
+                {/* <p>{weather?.weather[0]?.main}</p> */}
+                <img
+                  src={`http://openweathermap.org/img/wn/${weather?.weather[0]?.icon}@2x.png`}
+                  alt='weather condition'
+                />
+              </div>
+              {/* Location */}
+              <h2 className='location'>
+                {weather?.name}
+                {country?.length > 0 ? `, ${country}` : ''}
+              </h2>
+            </section>
 
             {/* Temperature F/C */}
-            <p>
+            <section className='temperature-and-stats'></section>
+            <h1 className='temperature'>
               {weather?.main?.temp} &#176;{units === 'metric' ? 'C' : 'F'}
-            </p>
-
-            {/* Condition (Sunny) */}
-            <p>{weather?.weather[0]?.main}</p>
-            <p>{weather?.weather[0]?.description}</p>
+            </h1>
+            <div className='vertical-divider'></div>
+            <div className='stats'>
+              <p className='feels-like'>
+                FEELS LIKE: {Math.floor(Number(weather?.main?.feels_like))}{' '}
+                <span>&#176;{units === 'metric' ? 'C' : 'F'}</span>
+              </p>
+              <p className='wind'>
+                WIND: {Math.round(Number(weather?.wind?.speed))}{' '}
+                {units === 'metric' ? 'm/s' : 'MPH'}
+              </p>
+              <p className='humidity'>HUMIDITY: {weather?.main?.humidity}%</p>
+            </div>
           </>
         ) : (
           <p>Enter a city/town</p>
