@@ -111,6 +111,11 @@ function App() {
             placeholder='Search city...'
             value={search}
             onChange={(e) => setSearch(e.target.value)}
+            onKeyUp={(event) => {
+              if (event.key === 'Enter') {
+                getWeather()
+              }
+            }}
           />
 
           <button onClick={getWeather}>Search</button>
