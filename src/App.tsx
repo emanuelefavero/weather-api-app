@@ -108,7 +108,7 @@ function App() {
     height: '100vh',
     backgroundImage: `url(${backgroundImage})`,
     backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat',
+    backgroundRepeat: 'repeat',
   }
 
   return (
