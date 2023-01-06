@@ -37,3 +37,7 @@ npm run dev
 
 - [OpenWeatherMap API](https://openweathermap.org/api)
 - [OpenCage Geocoding API](https://opencagedata.com/api)
+
+## License
+
+- [MIT](LICENSE.md)
