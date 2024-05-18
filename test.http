@@ -1,0 +1,3 @@
+# GET WEATHER - TIP: add your API key to the URL
+
+GET https://api.openweathermap.org/data/2.5/weather?q=Pisa,IT&units=metric&APPID=YOUR_API_KEY
